@@ -1,0 +1,4 @@
+data/com.felipekinoshita.Sentence.desktop.in
+data/com.felipekinoshita.Sentence.metainfo.xml.in
+data/com.felipekinoshita.Sentence.gschema.xml
+src/window.ui

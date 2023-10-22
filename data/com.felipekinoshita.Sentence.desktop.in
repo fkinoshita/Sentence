@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=sentence
+Exec=sentence
+Icon=com.felipekinoshita.Sentence
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
