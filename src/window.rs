@@ -152,15 +152,9 @@ impl SentenceWindow {
                 this.imp().editor_container
                     .observe_children()
                     .into_iter()
-                    .enumerate()
-                    .for_each(|(index, child)| {
+                    .for_each(|child| {
                         if let Ok(child) = child {
-                            if id == index && id != 0 {
-                                this.imp().editor_container.remove(child.downcast_ref::<gtk::Widget>().unwrap());
-                            }
-                            if id == index + 1 {
-                                child.downcast_ref::<gtk::Widget>().unwrap().grab_focus();
-                            }
+                            this.imp().editor_container.remove(child.downcast_ref::<gtk::Widget>().unwrap());
                         }
                     });
 
