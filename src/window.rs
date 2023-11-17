@@ -72,52 +72,17 @@ mod imp {
                 })
             );
 
-            self.add_text_slice_with_placeholder(TextStyle::HeadingOne, &gettext("Title"));
+            obj.slices_from_markdown("# Lorem Ipsum\n\nThis is a paragraph\n\n## Subtitle\n\nasdjkalsdjkalsdklasd\n");
+
+            // self.add_text_slice_with_placeholder(TextStyle::HeadingOne, &gettext("Title"));
         }
     }
 
     #[gtk::template_callbacks]
     impl SentenceWindow {
         fn add_text_slice(&self, style: TextStyle) {
-            self.add_text_slice_with_placeholder(style, "");
-        }
-
-        fn add_text_slice_with_placeholder(&self, style: TextStyle, placeholder: &str) {
-            let obj = self.obj();
-            let imp = obj.imp();
-
-            imp.editor_add_button.popdown();
-
-            let id = imp.editor_container.observe_children().n_items() as usize;
-
-            let thing = TextSlice::new_from_style(style);
-            thing.buffer().set_text(placeholder);
-
-            imp.editor_container.append(&thing);
-            thing.grab_focus();
-
-            thing.connect_local(
-                "should-delete",
-                false,
-                glib::clone!(@weak self as this => @default-return None, move |_| {
-                    this.editor_container
-                        .observe_children()
-                        .into_iter()
-                        .enumerate()
-                        .for_each(|(index, child)| {
-                            if let Ok(child) = child {
-                                if id == index && id != 0 {
-                                    this.editor_container.remove(child.downcast_ref::<gtk::Widget>().unwrap());
-                                }
-                                if id == index + 1 {
-                                    child.downcast_ref::<gtk::Widget>().unwrap().grab_focus();
-                                }
-                            }
-                        });
-
-                    None
-                }),
-            );
+            self.obj().add_text_slice_with_placeholder(style, "");
+            self.obj().imp().editor_add_button.popdown();
         }
 
         #[template_callback]
@@ -167,6 +132,85 @@ impl SentenceWindow {
         glib::Object::builder()
             .property("application", application)
             .build()
+    }
+
+    fn add_text_slice_with_placeholder(&self, style: TextStyle, placeholder: &str) {
+        let imp = self.imp();
+
+        let id = imp.editor_container.observe_children().n_items() as usize;
+
+        let thing = TextSlice::new_from_style(style);
+        thing.buffer().set_text(placeholder);
+
+        imp.editor_container.append(&thing);
+        thing.grab_focus();
+
+        thing.connect_local(
+            "should-delete",
+            false,
+            glib::clone!(@weak self as this => @default-return None, move |_| {
+                this.imp().editor_container
+                    .observe_children()
+                    .into_iter()
+                    .enumerate()
+                    .for_each(|(index, child)| {
+                        if let Ok(child) = child {
+                            if id == index && id != 0 {
+                                this.imp().editor_container.remove(child.downcast_ref::<gtk::Widget>().unwrap());
+                            }
+                            if id == index + 1 {
+                                child.downcast_ref::<gtk::Widget>().unwrap().grab_focus();
+                            }
+                        }
+                    });
+
+                None
+            }),
+        );
+    }
+
+    fn slices_from_markdown(&self, markdown: &str) {
+        let imp = self.imp();
+
+        imp.editor_container
+            .observe_children()
+            .into_iter()
+            .for_each(|child| {
+                if let Ok(child) = child {
+                    imp.editor_container.remove(child.downcast_ref::<gtk::Widget>().unwrap());
+                }
+            });
+
+        let ast = markdown::to_mdast(markdown, &markdown::ParseOptions::default()).expect("error from markdown ast");
+        for child in ast.children().unwrap() {
+            let node = child.children().unwrap().first().unwrap().clone();
+            let mut node_text = "";
+
+            match node {
+                markdown::mdast::Node::Text(ref node) => {
+                    node_text = &node.value;
+                },
+                _ => {},
+            }
+
+            match child {
+                markdown::mdast::Node::Heading(node) => {
+                    let style = match node.depth {
+                        1 => TextStyle::HeadingOne,
+                        2 => TextStyle::HeadingTwo,
+                        3 => TextStyle::HeadingThree,
+                        4 => TextStyle::HeadingFour,
+                        _ => TextStyle::Normal,
+                    };
+
+                    self.add_text_slice_with_placeholder(style, node_text);
+                }
+                markdown::mdast::Node::Paragraph(_node) => {
+                    self.add_text_slice_with_placeholder(TextStyle::Normal, node_text);
+                }
+                _ => {},
+            }
+        }
     }
 
     fn generate_markdown(&self) {
