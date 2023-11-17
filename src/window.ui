@@ -116,7 +116,7 @@
                 </property>
 
                 <child type="bottom">
-                  <object class="GtkBox">
+                  <object class="GtkActionBar">
                     <property name="hexpand">true</property>
                     <property name="vexpand">true</property>
                     <property name="halign">center</property>
@@ -125,7 +125,7 @@
                       <class name="toolbar"/>
                     </style>
 
-                    <child>
+                    <child type="center">
                       <object class="GtkMenuButton" id="editor_add_button">
                         <property name="label" translatable="yes">Normal</property>
                         <property name="always-show-arrow">true</property>
@@ -135,66 +135,135 @@
 
                             <property name="child">
                               <object class="GtkBox">
-                                <property name="orientation">vertical</property>
+                                <property name="orientation">horizontal</property>
                                 <property name="spacing">6</property>
 
                                 <child>
-                                  <object class="GtkButton" id="heading_one_button">
-                                    <property name="label" translatable="yes">Heading 1</property>
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">6</property>
 
-                                    <signal name="clicked" handler="on_heading_one_clicked" swapped="true"/>
+                                    <child>
+                                      <object class="GtkButton" id="normal_text_button">
+                                        <accessibility>
+                                          <relation name="labelled-by">normal_label</relation>
+                                        </accessibility>
 
-                                    <style>
-                                      <class name="flat"/>
-                                    </style>
+                                        <property name="child">
+                                          <object class="GtkBox">
+                                            <property name="spacing">12</property>
+
+                                            <child>
+                                              <object class="GtkImage">
+                                                <property name="icon-name">list-add-symbolic</property>
+                                              </object>
+                                            </child>
+
+                                            <child>
+                                              <object class="GtkLabel" type="normal_label">
+                                                <property name="label" translatable="yes">Normal</property>
+                                              </object>
+                                            </child>
+
+                                          </object>
+                                        </property>
+
+                                        <signal name="clicked" handler="on_normal_text_clicked" swapped="true"/>
+
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
+
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkButton" id="list_button">
+                                        <property name="label" translatable="yes">List</property>
+
+                                        <!-- <signal name="clicked" handler="list_clicked" swapped="true"/> -->
+
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkButton" id="quote_button">
+                                        <property name="label" translatable="yes">Quote</property>
+
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
+                                      </object>
+                                    </child>
+
+                                    <child>
+                                      <object class="GtkButton" id="monospace_button">
+                                        <property name="label" translatable="yes">Monospace</property>
+
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
+                                      </object>
+                                    </child>
+
                                   </object>
                                 </child>
 
                                 <child>
-                                  <object class="GtkButton">
-                                    <property name="label" translatable="yes">Heading 2</property>
+                                  <object class="GtkBox">
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">6</property>
 
-                                    <signal name="clicked" handler="on_heading_two_clicked" swapped="true"/>
+                                    <child>
+                                      <object class="GtkButton" id="heading_one_button">
+                                        <property name="label" translatable="yes">Heading 1</property>
 
-                                    <style>
-                                      <class name="flat"/>
-                                    </style>
-                                  </object>
-                                </child>
+                                        <signal name="clicked" handler="on_heading_one_clicked" swapped="true"/>
 
-                                <child>
-                                  <object class="GtkButton">
-                                    <property name="label" translatable="yes">Heading 3</property>
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
+                                      </object>
+                                    </child>
 
-                                    <signal name="clicked" handler="on_heading_three_clicked" swapped="true"/>
+                                    <child>
+                                      <object class="GtkButton">
+                                        <property name="label" translatable="yes">Heading 2</property>
 
-                                    <style>
-                                      <class name="flat"/>
-                                    </style>
-                                  </object>
-                                </child>
+                                        <signal name="clicked" handler="on_heading_two_clicked" swapped="true"/>
 
-                                <child>
-                                  <object class="GtkButton">
-                                    <property name="label" translatable="yes">Heading 4</property>
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
+                                      </object>
+                                    </child>
 
-                                    <signal name="clicked" handler="on_heading_four_clicked" swapped="true"/>
+                                    <child>
+                                      <object class="GtkButton">
+                                        <property name="label" translatable="yes">Heading 3</property>
 
-                                    <style>
-                                      <class name="flat"/>
-                                    </style>
-                                  </object>
-                                </child>
+                                        <signal name="clicked" handler="on_heading_three_clicked" swapped="true"/>
 
-                                <child>
-                                  <object class="GtkButton" id="normal_text_button">
-                                    <property name="label" translatable="yes">Normal</property>
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
+                                      </object>
+                                    </child>
 
-                                    <signal name="clicked" handler="on_normal_text_clicked" swapped="true"/>
+                                    <child>
+                                      <object class="GtkButton">
+                                        <property name="label" translatable="yes">Heading 4</property>
 
-                                    <style>
-                                      <class name="flat"/>
-                                    </style>
+                                        <signal name="clicked" handler="on_heading_four_clicked" swapped="true"/>
+
+                                        <style>
+                                          <class name="flat"/>
+                                        </style>
+                                      </object>
+                                    </child>
                                   </object>
                                 </child>
 
@@ -207,13 +276,13 @@
                       </object>
                     </child>
 
-                    <child>
-                      <object class="GtkButton">
-                        <property name="label" translatable="yes">Generate Markdown</property>
+                    <!-- <child type="start"> -->
+                    <!--   <object class="GtkButton"> -->
+                    <!--     <property name="label" translatable="yes">Generate Markdown</property> -->
 
-                        <signal name="clicked" handler="on_generate_markdown_clicked" swapped="true"/>
-                      </object>
-                    </child>
+                    <!--     <signal name="clicked" handler="on_generate_markdown_clicked" swapped="true"/> -->
+                    <!--   </object> -->
+                    <!-- </child> -->
 
                   </object>
                 </child>

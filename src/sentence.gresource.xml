@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/com/felipekinoshita/Sentence">
+    <file preprocess="xml-stripblanks">icons/scalable/actions/header-1-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/header-2-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/header-3-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/header-4-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/image-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/link-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/list-compact-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/marker-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/monospace-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/quotation-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/text-symbolic.svg</file>
+
     <file preprocess="xml-stripblanks">window.ui</file>
     <file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
-
-    <file preprocess="xml-stripblanks">icons/text-symbolic.svg</file>
   </gresource>
 </gresources>
