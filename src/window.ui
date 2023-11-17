@@ -207,6 +207,14 @@
                       </object>
                     </child>
 
+                    <child>
+                      <object class="GtkButton">
+                        <property name="label" translatable="yes">Generate Markdown</property>
+
+                        <signal name="clicked" handler="on_generate_markdown_clicked" swapped="true"/>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
 

@@ -144,6 +144,11 @@ mod imp {
         fn on_normal_text_clicked(&self, _button: gtk::Button) {
             self.add_text_slice(TextStyle::Normal);
         }
+
+        #[template_callback]
+        fn on_generate_markdown_clicked(&self) {
+            self.obj().generate_markdown();
+        }
     }
 
     impl WidgetImpl for SentenceWindow {}
@@ -162,5 +167,33 @@ impl SentenceWindow {
         glib::Object::builder()
             .property("application", application)
             .build()
+    }
+
+    fn generate_markdown(&self) {
+        let mut output = String::new();
+
+        let imp = self.imp();
+
+        imp.editor_container
+            .observe_children()
+            .into_iter()
+            .for_each(|child| {
+                if let Ok(c) = child {
+                    let c = c.downcast_ref::<TextSlice>().unwrap();
+                    let b = c.buffer();
+                    let buffer = b.downcast_ref::<gtk::TextBuffer>().unwrap();
+                    let text = buffer.text(&mut buffer.start_iter(), &mut buffer.end_iter(), false);
+
+                    match c.style() {
+                        TextStyle::HeadingOne => output.push_str(&format!("# {}\n\n", text)),
+                        TextStyle::HeadingTwo => output.push_str(&format!("## {}\n\n", text)),
+                        TextStyle::HeadingThree => output.push_str(&format!("### {}\n\n", text)),
+                        TextStyle::HeadingFour => output.push_str(&format!("#### {}\n\n", text)),
+                        TextStyle::Normal => output.push_str(&format!("{}\n\n", text)),
+                    }
+                }
+            });
+
+        println!("{output}");
     }
 }

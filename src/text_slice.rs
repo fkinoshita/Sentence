@@ -114,4 +114,9 @@ impl TextSlice {
         let imp = self.imp();
         imp.style.replace(style);
     }
+
+    pub fn style(&self) -> TextStyle {
+        let imp = self.imp();
+        imp.style.get()
+    }
 }
